@@ -1,5 +1,5 @@
 class Comment
-  attr_reader :user_name
+  
   def initialize(user_name, time, content, level)
     @user_name = user_name
     @time = time

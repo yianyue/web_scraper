@@ -14,7 +14,7 @@ class Post
   end
 
   def info
-    "Title: #{@title}\nURL: #{@url}\nScores: #{@points}\nItem ID: #{@item_id}"
+    "Title: #{@title}\nArticle URL: #{@url}\nScores: #{@points}\nItem ID: #{@item_id}\nComments: #{@comments.length}"
   end
 
   def comments
