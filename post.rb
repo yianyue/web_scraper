@@ -18,7 +18,8 @@ class Post
     \rArticle URL: #{@url.colorize(:blue)}
     \rScores: #{@points.to_s.colorize(:green)}
     \rItem ID: #{@item_id.colorize(:green)}
-    \rComments: #{@comments.length.to_s.colorize(:red)}"
+    \rComments: #{@comments.length.to_s.colorize(:red)}
+    \rMost Frequent Commenter: #{most_freq_commenter}"
   end
 
   def comments
@@ -29,6 +30,18 @@ class Post
   def add_comment(comment)
     # takes a Comment object as its input and adds it to the comment list
     @comments << comment
+  end
+
+  def most_freq_commenter
+    # commenters is an array containing all the user names
+    commenters = @comments.map{|comment|
+      comment.user_name
+    }
+    # group is a hash with user name as hash key, and an array of every occurance of the same user name as value
+    group = commenters.group_by{|commenter| commenter}
+    # group.values returns an array of the values in the hash (an arry of arrays)
+    # .max_by(&:size) picks out the entry with the largest array
+    most_freq_commenter = group.values.max_by(&:size).first
   end
 
 end
