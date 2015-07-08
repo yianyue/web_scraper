@@ -11,20 +11,21 @@ class Scraper
     # html_file is not necessary
     html_file = open(@url)
     @doc = Nokogiri::HTML(html_file) 
-    @post = Post.new
   end
 
   def get_post
     # should these initializing steps be moved to post.rb?
     # pass the doc to Post.new?
-    @post.title = @doc.css('title').text
+    title = @doc.css('title').text
     # url of the article link
-    @post.url = @doc.css('tr.athing>td.title>a')[0]['href']
+    url = @doc.css('tr.athing>td.title>a')[0]['href']
     # take the text with the class 'score' and split at the space
     # take the first part, then convert to integer
-    @post.points = @doc.css('.score').text.split(" ")[0].to_i
+    points = @doc.css('.score').text.split(" ")[0].to_i
     # extracting the last 7 characters of the url only works with a web address
-    @post.item_id = @url[-IDDIGITS..-1]
+    item_id = @url[-IDDIGITS..-1]
+
+    @post = Post.new(title, url, points, item_id)
 
     get_comments
 
@@ -41,7 +42,9 @@ class Scraper
       # content is bracketed by \n
       content = comment.css('.comment').text
       level = comment.css('img')[0]['width'].to_i/LEVELWIDTH
+
       comment = Comment.new(user_name, time, content, level)
+
       @post.add_comment(comment)
     }
   end
