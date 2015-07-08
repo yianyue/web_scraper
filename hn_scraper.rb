@@ -25,13 +25,16 @@ class Scraper
     @post.points = @doc.css('.score').text.split(" ")[0].to_i
     # extracting the last 7 characters of the url only works with a web address
     @post.item_id = @url[-IDDIGITS..-1]
+
     get_comments
+
   end
 
   def get_comments
     # first 'tr.athing' is the title block
     comments = @doc.css('tr.athing')
     comments.shift
+
     comments.each {|comment|
       user_name = comment.css('.comhead > a:first-child').text
       time = comment.css('.comhead > a:nth-child(2)').text

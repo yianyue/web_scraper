@@ -1,6 +1,7 @@
 # Post class so it has the following attributes: 
 # title, url, points, and item_id
 require './comment'
+require 'colorize'
 
 class Post
   attr_accessor :title, :url, :points, :item_id
@@ -14,7 +15,11 @@ class Post
   end
 
   def info
-    "Title: #{@title}\nArticle URL: #{@url}\nScores: #{@points}\nItem ID: #{@item_id}\nComments: #{@comments.length}"
+    "Title: #{@title.colorize(:red)}
+    \rArticle URL: #{@url.colorize(:blue)}
+    \rScores: #{@points.to_s.colorize(:green)}
+    \rItem ID: #{@item_id.colorize(:green)}
+    \rComments: #{@comments.length.to_s.colorize(:red)}"
   end
 
   def comments
@@ -26,4 +31,5 @@ class Post
     # takes a Comment object as its input and adds it to the comment list
     @comments << comment
   end
+
 end
