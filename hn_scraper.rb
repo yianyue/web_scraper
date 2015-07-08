@@ -6,12 +6,20 @@ class Scraper
   IDDIGITS = 7
   LEVELWIDTH = 40
 
-  def initialize
-    @url = ARGV[0] # url of the hackernews post
+  def initialize(url)
+    @url = url # url of the hackernews post
     # html_file is not necessary
     html_file = open(@url)
     @doc = Nokogiri::HTML(html_file) 
   end
+
+  def scrape
+    get_post
+    get_comments
+    print_stats
+  end
+
+  private
 
   def get_post
     # should these initializing steps be moved to post.rb?
@@ -26,9 +34,6 @@ class Scraper
     item_id = @url[-IDDIGITS..-1]
 
     @post = Post.new(title, url, points, item_id)
-
-    get_comments
-
   end
 
   def get_comments
@@ -55,6 +60,5 @@ class Scraper
 
 end
 
-scraper = Scraper.new
-scraper.get_post
-scraper.print_stats
+scraper = Scraper.new(ARGV[0])
+scraper.scrape
