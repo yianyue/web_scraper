@@ -36,12 +36,13 @@ class Scraper
     comments.each {|comment|
       user_name = comment.css('.comhead > a:first-child').text
       time = comment.css('.comhead > a:nth-child(2)').text
-      # content = 
-      # level = 
-      # comment = Comment.new(user_name, time, content, level)
-      # @post.add_comment(comment)
+      # content is bracketed by \n
+      content = comment.css('.comment').text
+      level = comment.css('img')[0]['width'].to_i/LEVELWIDTH
+      comment = Comment.new(user_name, time, content, level)
+      @post.add_comment(comment)
     }
-    # puts @post.comments[rand(0..48)].user_name
+    puts @post.comments[rand(0..48)].user_name
   end
 
 end
